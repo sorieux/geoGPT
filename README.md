@@ -65,7 +65,7 @@ Data from geonames.org is then utilized to furnish latitude, longitude, and time
 
    Execute the FastAPI application using `uvicorn`:
    ```bash
-   uvicorn geogpt.main:app --reload
+   poetry run uvicorn geogpt.main:app --reload
    ```
 
 ## Usage
