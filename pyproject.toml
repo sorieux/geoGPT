@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "geogpt"
+version = "0.1.0"
+description = ""
+authors = ["sorieux <orieux.stephane@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+openai = "^0.27.8"
+fastapi = "^0.101.1"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+python-decouple = "^3.8"
+httpx = "^0.24.1"
+
+
+[tool.poetry.dev-dependencies]
+black = "^23.7.0"
+pytest = "^7.4.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

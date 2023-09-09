@@ -1,0 +1,20 @@
+# Idea
+.idea/
+
+# macOS
+.DS_Store
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Environment variables and secrets
+/.env
+
+# Sqlite3 geonames database
+geonames.sqlite3
