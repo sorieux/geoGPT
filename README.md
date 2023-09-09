@@ -22,7 +22,7 @@ Data from geonames.org is then utilized to furnish latitude, longitude, and time
 
 3. **Create geonames.sqlite3 SQLite3 database**
 
-   Fetch the `cities500.zip` file from Geoname at [this link](http://download.geonames.org/export/dump/), which provides details of all cities with a population greater than 500.
+   Fetch the `cities500.txt` file from Geoname at [this link](http://download.geonames.org/export/dump/), which provides details of all cities with a population greater than 500.
    
    1. Open the SQLite shell:
       ``` bash
