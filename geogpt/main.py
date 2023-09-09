@@ -11,8 +11,6 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 openai.api_key = config("OPENAI_API_KEY")
 
-# http://download.geonames.org/export/dump/readme.txt
-# https://github.com/commodo/geonames-dump-to-sqlite/blob/master/README.md
 def get_geoname(city: str, country_code: str):
     logging.info(f"Fetching geoname for city: {city} and country code: {country_code}")
 
@@ -20,7 +18,7 @@ def get_geoname(city: str, country_code: str):
         cur = con.cursor()
 
         res = cur.execute(
-            "SELECT name, country, longitude, latitude, timezone FROM geoname WHERE LOWER(asciiname)=? AND LOWER(country)=?",
+            "SELECT name, country_code, longitude, latitude, timezone FROM geoname WHERE LOWER(asciiname)=? AND LOWER(country_code)=?",
             (city.lower(), country_code.lower()),
         )
 
