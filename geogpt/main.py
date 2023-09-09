@@ -7,9 +7,12 @@ from decouple import config
 from fastapi import FastAPI, HTTPException, Body
 
 app = FastAPI()
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 openai.api_key = config("OPENAI_API_KEY")
+
 
 def get_geoname(city: str, country_code: str):
     logging.info(f"Fetching geoname for city: {city} and country code: {country_code}")
@@ -25,7 +28,9 @@ def get_geoname(city: str, country_code: str):
         data = res.fetchone()
 
     if not data:
-        logging.warning(f"No data found in the database for city: {city} and country code: {country_code}")
+        logging.warning(
+            f"No data found in the database for city: {city} and country code: {country_code}"
+        )
         raise HTTPException(status_code=404, detail="Data not found in the database")
 
     name, country, longitude, latitude, timezone = data
@@ -43,44 +48,20 @@ def get_city_country(address: str):
     messages = [
         {
             "role": "system",
-            "content": "Return the normalized English name of city and the country code for a given address",
+            "content": "Determine the city and country code from a possibly misspelled address. Return in JSON format: city and country_code",
         },
         {"role": "user", "content": address},
-    ]
-
-    custom_functions = [
-        {
-            "name": "extract_city_and_country_code",
-            "description": "Get the normalized English name of the city and the country code for a given address as a JSON document with two fields: city and country_code.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "city": {
-                        "type": "string",
-                        "description": "The city associated with the provided address",
-                    },
-                    "country_code": {
-                        "type": "string",
-                        "description": "The country code associated with the provided address",
-                    },
-                },
-            },
-        }
     ]
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=messages,
-        functions=custom_functions,
-        function_call="auto",
     )
 
     logging.debug(f"OpenAI API response: {response}")
 
     try:
-        response_data = json.loads(
-            response["choices"][0]["message"]["function_call"]["arguments"]
-        )
+        response_data = json.loads(response["choices"][0]["message"]["content"])
 
         city = response_data["city"]
         country_code = response_data["country_code"]
